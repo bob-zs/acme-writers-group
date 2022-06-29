@@ -26,23 +26,37 @@ class User extends Component{
       
     }
   }
+  async toggleFavorite(story) {
+    const storyId = story.id;
+    const response = await axios.put(`/api/stories/favorite/${storyId}`);
+    if (response.status !== 204) throw `Failed to toggle favorite status of storyId ${storyId}`;
+    
+  }
   render(){
     const { user, stories, destroy } = this.state;
+    const toggleFavorite = this.toggleFavorite;
     return (
       <div>
         Details for { user.name }
         <p>
           { user.bio }
         </p>
-        <ul>
+        <ul className="storyList">
           {
             stories.map( story => {
+              const isFav = story.favorite;
               return (
                 <li key={ story.id } id={ story.id }>
+                  { isFav ? '🟢': null }&nbsp;
                   { story.title }
                   <button onClick={()=> destroy(story)}>x</button>
                   <p>
                   { story.body }
+                </p>
+                <p>
+                    <button onClick={ () => toggleFavorite(story) } className={ isFav ? 'notFav' : 'fav' }>
+                      { isFav ? 'unfavorite': 'Make Favorite' }
+                    </button>
                   </p>
                 </li>
 

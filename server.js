@@ -83,6 +83,18 @@ app.delete('/api/stories/:id', async(req, res, next) => {
   }
 });
 
+app.put('/api/stories/favorite/:storyId', async(req, res, next) => {
+  try {
+    const story = await Story.findByPk(req.params.storyId);
+    story.favorite = !story.favorite;
+    await story.save();
+    res.sendStatus(204);
+  }
+  catch(ex) {
+    next(ex);
+  }
+})
+
 app.use((err, req, res, next)=> {
   console.log(err);
   res.status(500).send(err);
