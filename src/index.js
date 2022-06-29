@@ -35,8 +35,8 @@ class App extends Component{
       const response = await axios.get('/api/users');
       this.setState({ users: response.data });
       window.addEventListener('hashchange', ()=> {
-      const userId = window.location.hash.slice(1);
-      this.setState({ userId });
+        const userId = window.location.hash.slice(1);
+        this.setState({ userId });
       });
     }
     catch(ex){
