@@ -14,10 +14,8 @@ class App extends Component{
     };
     this.destroyUser = this.destroyUser.bind(this);
   }
-  destroyUser(user){
-    console.log(this);
-    console.log(user);
-    console.log('destroy on server');
+  async destroyUser(user){
+    await axios.delete(`/api/users/${user.id}`);
     console.log('remove from state');
     if(this.state.userId){
       window.location.hash = '';
