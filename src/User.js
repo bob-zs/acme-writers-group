@@ -26,14 +26,28 @@ class User extends Component{
       
     }
   }
+
+  async handleSubmit(ev) {
+    ev.preventDefault();
+    console.log('handling submit')
+
+  }
+
   render(){
     const { user, stories, destroy } = this.state;
+    const userId = user.id;
     return (
       <div>
         Details for { user.name }
         <p>
           { user.bio }
         </p>
+        <form onSubmit={ () => handleSubmit() }>
+          {/* <input name="storyTitle" value='Story Title'></input>
+          <textarea name="storyDesc" value='Story Description'></textarea> */}
+          <input name="userId" value={ userId }  />
+          <input type="submit" value="Submit"/>
+        </form>
         <ul>
           {
             stories.map( story => {

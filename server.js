@@ -46,6 +46,10 @@ app.get('/api/users/:id/stories', async(req, res, next)=> {
 app.post('/api/users', async(req, res, next) => {
   try {
 
+    return {
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+      bio: faker.lorem.paragraph()
+    }
   }
   catch(ex) {
     next(ex);
@@ -65,7 +69,14 @@ app.delete('/api/users/:id', async(req, res, next) => {
 
 app.post('/api/users/:id/stories', async(req, res, next) => {
   try {
-
+    return {
+        userId: null,
+      //
+        title: faker.random.words(5),
+        body: faker.lorem.paragraphs(5),
+        favorite: faker.datatype.boolean(),
+        userId: Math.ceil(Math.random() * 100)
+    }
   }
   catch(ex) {
     next(ex);
