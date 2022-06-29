@@ -6,7 +6,8 @@ class User extends Component{
     super();
     this.state = {
       user: {},
-      stories: [] 
+      stories: [],
+      destroy: null,
     };
   }
   async componentDidMount(){
@@ -14,7 +15,7 @@ class User extends Component{
     this.setState({ user: response.data });
     response = await axios.get(`/api/users/${this.props.userId}/stories`);
     this.setState({ stories: response.data });
-
+    this.setState({ destroy: this.props.destroy });
   }
   async componentDidUpdate(prevProps){
     if(prevProps.userId !== this.props.userId){
@@ -26,8 +27,7 @@ class User extends Component{
     }
   }
   render(){
-    const { user, stories } = this.state;
-    console.log(stories);
+    const { user, stories, destroy } = this.state;
     return (
       <div>
         Details for { user.name }
@@ -38,8 +38,9 @@ class User extends Component{
           {
             stories.map( story => {
               return (
-                <li key={ story.id }>
+                <li key={ story.id } id={ story.id }>
                   { story.title }
+                  <button onClick={()=> destroy(story)}>x</button>
                   <p>
                   { story.body }
                   </p>

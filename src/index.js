@@ -15,11 +15,17 @@ class App extends Component{
     this.destroyUser = this.destroyUser.bind(this);
   }
   async destroyUser(user){
+    console.log('remove user');
     await axios.delete(`/api/users/${user.id}`);
-    console.log('remove from state');
     if(this.state.userId){
       window.location.hash = '';
     }
+  }
+  async destroyStory(story){
+    console.log('remove story');
+    await axios.delete(`/api/stories/${story.id}`);
+    const storyEl = document.getElementById(story.id);
+    storyEl.parentNode.removeChild(storyEl);
   }
   async componentDidMount(){
     try {
@@ -40,14 +46,14 @@ class App extends Component{
   }
   render(){
     const { users, userId } = this.state;
-    const { destroyUser } = this;
+    const { destroyUser, destroyStory } = this;
     return (
       <div>
         <h1>Acme Writers Group ({ users.length })</h1>
         <main>
           <Users users = { users } userId={ userId } destroy = { destroyUser }/>
           {
-            userId ? <User userId={ userId } /> : null
+            userId ? <User userId={ userId } destroy={ destroyStory } /> : null
           }
         </main>
       </div>

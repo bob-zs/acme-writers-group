@@ -74,7 +74,9 @@ app.post('/api/users/:id/stories', async(req, res, next) => {
 
 app.delete('/api/stories/:id', async(req, res, next) => {
   try {
-
+    const story = await Story.findByPk(req.params.id);
+    await story.destroy();
+    res.sendStatus(204);
   }
   catch(ex) {
     next(ex);
