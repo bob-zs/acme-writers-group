@@ -19,6 +19,7 @@ class User extends Component{
   }
   async componentDidUpdate(prevProps){
     if(prevProps.userId !== this.props.userId){
+      console.log('how update');
       let response = await axios.get(`/api/users/${this.props.userId}`);
       this.setState({ user: response.data });
       response = await axios.get(`/api/users/${this.props.userId}/stories`);
@@ -26,12 +27,16 @@ class User extends Component{
       
     }
   }
-  async toggleFavorite(story) {
+
+  toggleFavorite = async (story) => {
     const storyId = story.id;
-    const response = await axios.put(`/api/stories/favorite/${storyId}`);
+    const userId = story.userId;
+    let response = await axios.put(`/api/stories/favorite/${storyId}`);
     if (response.status !== 204) throw `Failed to toggle favorite status of storyId ${storyId}`;
-    
+    response = await axios.get(`/api/users/${userId}/stories`);
+    this.setState({ stories: response.data });
   }
+
   render(){
     const { user, stories, destroy } = this.state;
     const toggleFavorite = this.toggleFavorite;
